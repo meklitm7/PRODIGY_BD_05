@@ -6,9 +6,7 @@ from .models import Booking
 
 
 class BookingSerializer(serializers.ModelSerializer):
-    """
-    Used for returning booking information.
-    """
+     
 
     room_title = serializers.CharField(
         source="room.title",
@@ -39,9 +37,6 @@ class BookingSerializer(serializers.ModelSerializer):
 
 
 class BookingCreateSerializer(serializers.ModelSerializer):
-    """
-    Used for creating bookings.
-    """
 
     class Meta:
         model = Booking

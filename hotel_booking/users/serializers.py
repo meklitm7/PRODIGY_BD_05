@@ -5,9 +5,6 @@ from .models import User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    """
-    Register a new user.
-    """
 
     password = serializers.CharField(
         write_only=True,
@@ -40,10 +37,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    """
-    User login.
-    """
-
+     
     email = serializers.EmailField()
 
     password = serializers.CharField(
@@ -69,10 +63,7 @@ class LoginSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """
-    Display user information.
-    """
-
+     
     class Meta:
         model = User
 
@@ -91,10 +82,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    """
-    Update profile.
-    """
-
+     
     class Meta:
         model = User
 
@@ -104,10 +92,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class AdminUserUpdateSerializer(serializers.ModelSerializer):
-    """
-    Admin updates user.
-    """
-
+     
     class Meta:
         model = User
 

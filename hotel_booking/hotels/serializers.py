@@ -4,10 +4,7 @@ from .models import HotelRoom
 
 
 class HotelRoomSerializer(serializers.ModelSerializer):
-    """
-    Used for returning hotel room information.
-    """
-
+     
     owner = serializers.ReadOnlyField(source="owner.email")
 
     class Meta:
@@ -36,10 +33,7 @@ class HotelRoomSerializer(serializers.ModelSerializer):
 
 
 class HotelRoomCreateUpdateSerializer(serializers.ModelSerializer):
-    """
-    Used for creating and updating hotel rooms.
-    """
-
+     
     class Meta:
         model = HotelRoom
 

@@ -7,9 +7,6 @@ from hotels.models import HotelRoom
 
 
 class Booking(models.Model):
-    """
-    Stores hotel room bookings.
-    """
 
     class BookingStatus(models.TextChoices):
         PENDING = "PENDING", "Pending"

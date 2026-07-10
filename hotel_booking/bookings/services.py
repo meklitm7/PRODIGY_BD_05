@@ -7,15 +7,9 @@ from hotels.models import HotelRoom
 
 
 class BookingService:
-    """
-    Business logic for bookings.
-    """
-
+     
     @staticmethod
     def calculate_total_price(room, check_in, check_out):
-        """
-        Calculate booking total price.
-        """
 
         nights = (check_out - check_in).days
 
@@ -23,10 +17,6 @@ class BookingService:
 
     @staticmethod
     def room_is_available(room, check_in, check_out):
-        """
-        Check whether the room is available
-        during the requested dates.
-        """
 
         overlapping_booking = Booking.objects.filter(
             room=room,
@@ -43,9 +33,6 @@ class BookingService:
 
     @staticmethod
     def create_booking(user, validated_data):
-        """
-        Create a booking.
-        """
 
         room = validated_data["room"]
 
@@ -95,9 +82,6 @@ class BookingService:
 
     @staticmethod
     def get_user_bookings(user):
-        """
-        Return bookings belonging to the user.
-        """
 
         return Booking.objects.filter(
             user=user
@@ -105,9 +89,6 @@ class BookingService:
 
     @staticmethod
     def get_booking_by_id(booking_id):
-        """
-        Return a single booking.
-        """
 
         return Booking.objects.get(
             id=booking_id
@@ -115,9 +96,6 @@ class BookingService:
 
     @staticmethod
     def cancel_booking(booking):
-        """
-        Cancel a booking.
-        """
 
         booking.status = Booking.BookingStatus.CANCELLED
 

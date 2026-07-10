@@ -15,9 +15,6 @@ from .filters import HotelRoomFilter
 
 
 class HotelRoomViewSet(viewsets.ModelViewSet):
-    """
-    Hotel Room CRUD API
-    """
 
     permission_classes = [IsAuthenticated]
 
@@ -26,9 +23,9 @@ class HotelRoomViewSet(viewsets.ModelViewSet):
     lookup_field = "id"
 
     filter_backends = [
-    DjangoFilterBackend,
-    SearchFilter,
-    OrderingFilter,
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
     ]
 
     filterset_class = HotelRoomFilter
@@ -53,35 +50,41 @@ class HotelRoomViewSet(viewsets.ModelViewSet):
             "update",
             "partial_update",
         ]:
-
             return HotelRoomCreateUpdateSerializer
 
         return HotelRoomSerializer
 
     def list(self, request):
 
-      rooms = HotelRoomService.get_all_rooms()
+        queryset = self.filter_queryset(
+            HotelRoom.objects.all()
+        )
 
-      page = self.paginate_queryset(rooms)
+        rooms = HotelRoomService.search_rooms(
+            queryset,
+            request.query_params,
+        )
 
-      if page is not None:
+        page = self.paginate_queryset(rooms)
 
-          serializer = HotelRoomSerializer(
-              page,
-              many=True,
-          )
+        if page is not None:
 
-          return self.get_paginated_response(
-              serializer.data
-          )
+            serializer = HotelRoomSerializer(
+                page,
+                many=True,
+            )
 
-      serializer = HotelRoomSerializer(
-          rooms,
-          many=True,
-      )
+            return self.get_paginated_response(
+                serializer.data
+            )
 
-      return Response(serializer.data)
-    
+        serializer = HotelRoomSerializer(
+            rooms,
+            many=True,
+        )
+
+        return Response(serializer.data)
+
     def retrieve(self, request, id=None):
 
         room = HotelRoomService.get_room_by_id(id)
@@ -142,7 +145,10 @@ class HotelRoomViewSet(viewsets.ModelViewSet):
             raise_exception=True,
         )
 
-        serializer.save()
+        room = HotelRoomService.update_room(
+            room,
+            serializer.validated_data,
+        )
 
         return Response(
             HotelRoomSerializer(room).data
@@ -161,7 +167,7 @@ class HotelRoomViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        room.delete()
+        HotelRoomService.delete_room(room)
 
         return Response(
             {

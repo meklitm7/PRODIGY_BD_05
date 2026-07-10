@@ -12,9 +12,6 @@ from .services import BookingService
 
 
 class BookingViewSet(viewsets.ModelViewSet):
-    """
-    Booking API.
-    """
 
     permission_classes = [IsAuthenticated]
 

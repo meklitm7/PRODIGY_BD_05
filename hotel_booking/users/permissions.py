@@ -41,10 +41,7 @@ class IsCustomer(BasePermission):
 
 
 class IsAdminOrHost(BasePermission):
-    """
-    Allows access to admins and hosts.
-    """
-
+     
     def has_permission(self, request, view):
 
         return (

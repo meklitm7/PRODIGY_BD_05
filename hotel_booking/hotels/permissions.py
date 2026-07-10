@@ -2,10 +2,7 @@ from rest_framework.permissions import BasePermission
 
 
 class IsHost(BasePermission):
-    """
-    Only hosts can create hotel rooms.
-    """
-
+     
     def has_permission(self, request, view):
 
         return (
@@ -15,10 +12,7 @@ class IsHost(BasePermission):
 
 
 class IsRoomOwner(BasePermission):
-    """
-    Only the room owner can edit or delete it.
-    """
-
+     
     def has_object_permission(
         self,
         request,
@@ -30,10 +24,6 @@ class IsRoomOwner(BasePermission):
 
 
 class IsHostOrReadOnly(BasePermission):
-    """
-    Anyone authenticated can view rooms.
-    Only hosts can create rooms.
-    """
 
     def has_permission(self, request, view):
 

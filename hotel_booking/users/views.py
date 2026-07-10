@@ -17,10 +17,7 @@ from .services import UserService
 
 
 class RegisterView(APIView):
-    """
-    Register a new user.
-    """
-
+     
     def post(self, request):
 
         serializer = RegisterSerializer(
@@ -42,9 +39,6 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
-    """
-    User login.
-    """
 
     def post(self, request):
 
@@ -70,10 +64,7 @@ class LoginView(APIView):
 
 
 class ProfileView(APIView):
-    """
-    Logged in user's profile.
-    """
-
+     
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -107,10 +98,7 @@ class ProfileView(APIView):
 
 
 class UserListView(APIView):
-    """
-    Admin - list all users.
-    """
-
+     
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def get(self, request):
@@ -126,10 +114,7 @@ class UserListView(APIView):
 
 
 class UserDetailView(APIView):
-    """
-    Admin - retrieve, update or delete a user.
-    """
-
+     
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def get(self, request, id):
