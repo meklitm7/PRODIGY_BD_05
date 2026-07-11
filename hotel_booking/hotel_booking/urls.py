@@ -37,4 +37,9 @@ urlpatterns = [
         "api/",
         include("bookings.urls"),
     ),
+
+    path(
+    "api/",
+    include("ai_search.urls"),
+),
 ]

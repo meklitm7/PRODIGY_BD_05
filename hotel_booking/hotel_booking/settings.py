@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'hotels',
     'bookings',
     'django_filters',
+    'ai_search',
 ]
 
 AUTH_USER_MODEL = "users.User"
