@@ -1,5 +1,8 @@
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+)
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -14,9 +17,49 @@ from .serializers import (
     AdminUserUpdateSerializer,
 )
 from .services import UserService
+from drf_spectacular.utils import (
+    extend_schema,
+    OpenApiExample,
+)
 
 
 class RegisterView(APIView):
+
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+    summary="Register User",
+    description=(
+        "Create a new user account.\n\n"
+        "Roles:\n"
+        "- HOST: Can create and manage hotel rooms.\n"
+        "- CUSTOMER: Can search and book hotel rooms."
+    ),
+    request=RegisterSerializer,
+    responses=UserSerializer,
+    examples=[
+        OpenApiExample(
+            "Host Registration",
+            value={
+                "email": "host@example.com",
+                "name": "John Doe",
+                "password": "Password123!",
+                "role": "HOST"
+            },
+            request_only=True,
+        ),
+        OpenApiExample(
+            "Customer Registration",
+            value={
+                "email": "customer@example.com",
+                "name": "Jane Smith",
+                "password": "Password123!",
+                "role": "CUSTOMER"
+            },
+            request_only=True,
+        ),
+    ],
+)
      
     def post(self, request):
 
@@ -39,6 +82,27 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
+
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+    summary="Login User",
+    description=(
+        "Authenticate a user using email and password.\n\n"
+        "Returns JWT access and refresh tokens upon successful login."
+    ),
+    request=LoginSerializer,
+    examples=[
+        OpenApiExample(
+            "Login Example",
+            value={
+                "email": "host@example.com",
+                "password": "Password123!"
+            },
+            request_only=True,
+        ),
+    ],
+)
 
     def post(self, request):
 

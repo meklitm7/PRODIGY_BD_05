@@ -35,25 +35,25 @@ class AISearchService:
 
         rooms = HotelRoom.objects.all()
 
-         
+        # Location
         if "location" in filters:
             rooms = rooms.filter(
                 location__icontains=filters["location"]
             )
 
-         
+        # Room type
         if "room_type" in filters:
             rooms = rooms.filter(
                 room_type=filters["room_type"]
             )
 
-         
+        # Guests
         if "guests" in filters:
             rooms = rooms.filter(
                 capacity__gte=filters["guests"]
             )
 
-         
+        # Cheap / Luxury keywords
         if "price" in filters:
             if filters["price"] == "cheap":
                 rooms = rooms.order_by(
@@ -64,7 +64,22 @@ class AISearchService:
                     "-price_per_night"
                 )
 
-         
+        # Price range
+        if "price_range" in filters:
+
+            mode, amount = filters["price_range"]
+
+            if mode == "max":
+                rooms = rooms.filter(
+                    price_per_night__lte=amount
+                )
+
+            elif mode == "min":
+                rooms = rooms.filter(
+                    price_per_night__gte=amount
+                )
+
+        # Availability
         if (
             "check_in" in filters and
             "check_out" in filters

@@ -1,6 +1,9 @@
 from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+)
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -12,11 +15,79 @@ from .serializers import (
 )
 from .services import HotelRoomService
 from .filters import HotelRoomFilter
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+    OpenApiExample,
+)
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List Hotel Rooms",
+        description=(
+            "Retrieve a paginated list of hotel rooms.\n\n"
+            "Supports filtering, searching, ordering, and Redis caching."
+        ),
+        responses=HotelRoomSerializer(many=True),
+    ),
+
+    retrieve=extend_schema(
+        summary="Retrieve Hotel Room",
+        description="Retrieve the details of a hotel room using its ID.",
+        responses=HotelRoomSerializer,
+    ),
+
+    create=extend_schema(
+        summary="Create Hotel Room",
+        description=(
+            "Create a new hotel room.\n\n"
+            "Only authenticated users with the **HOST** role "
+            "can create hotel rooms."
+        ),
+        request=HotelRoomCreateUpdateSerializer,
+        responses=HotelRoomSerializer,
+        examples=[
+            OpenApiExample(
+                "Create Hotel Room",
+                value={
+                    "title": "Luxury Suite",
+                    "description": "Beautiful suite with city view.",
+                    "location": "Addis Ababa",
+                    "price_per_night": "2500.00",
+                    "capacity": 2,
+                    "room_type": "SUITE",
+                    "is_available": True
+                },
+                request_only=True,
+            ),
+        ],
+    ),
+
+    partial_update=extend_schema(
+        summary="Update Hotel Room",
+        description="Partially update one of your own hotel rooms.",
+        request=HotelRoomCreateUpdateSerializer,
+        responses=HotelRoomSerializer,
+    ),
+
+    destroy=extend_schema(
+        summary="Delete Hotel Room",
+        description="Delete one of your own hotel rooms.",
+        responses={204: None},
+    ),
+)
 
 class HotelRoomViewSet(viewsets.ModelViewSet):
 
-    permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+
+        if self.action in [
+            "list",
+            "retrieve",
+        ]:
+            return [AllowAny()]
+
+        return [IsAuthenticated()]
 
     queryset = HotelRoom.objects.all()
 
