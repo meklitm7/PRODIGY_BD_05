@@ -19,7 +19,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             "email",
             "name",
             "password",
-            "role",
+            
         )
 
         read_only_fields = (
@@ -29,11 +29,11 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
 
         return User.objects.create_user(
-            email=validated_data["email"],
-            name=validated_data["name"],
-            password=validated_data["password"],
-            role=validated_data["role"],
-        )
+        email=validated_data["email"],
+        name=validated_data["name"],
+        password=validated_data["password"],
+        role=User.Roles.CUSTOMER,
+    )
 
 
 class LoginSerializer(serializers.Serializer):

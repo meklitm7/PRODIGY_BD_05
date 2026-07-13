@@ -7,12 +7,11 @@ class UserService:
     def register_user(validated_data):
          
         return User.objects.create_user(
-            email=validated_data["email"],
-            name=validated_data["name"],
-            password=validated_data["password"],
-            role=validated_data["role"],
-        )
-
+        email=validated_data["email"],
+        name=validated_data["name"],
+        password=validated_data["password"],
+        role=User.Roles.CUSTOMER,
+    )
     @staticmethod
     def get_all_users():
          

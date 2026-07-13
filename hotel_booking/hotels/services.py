@@ -88,12 +88,10 @@ class HotelRoomService:
 
     @staticmethod
     def clear_room_cache():
-
-        cache.delete("all_rooms")
-
-        cache.delete_pattern("rooms:*")
-
-        cache.delete_pattern("room:*")
+        if hasattr(cache, "delete_pattern"):
+            cache.delete_pattern("rooms:*")
+        else:
+            cache.clear()
 
     @staticmethod
     def create_room(owner, validated_data):

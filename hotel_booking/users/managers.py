@@ -2,7 +2,6 @@ from django.contrib.auth.base_user import BaseUserManager
 
 
 class UserManager(BaseUserManager):
-     
 
     def create_user(
         self,
@@ -12,7 +11,6 @@ class UserManager(BaseUserManager):
     ):
 
         if not email:
-
             raise ValueError(
                 "Users must have an email address."
             )
@@ -31,6 +29,7 @@ class UserManager(BaseUserManager):
         )
 
         return user
+
 
     def create_superuser(
         self,
@@ -58,6 +57,19 @@ class UserManager(BaseUserManager):
             "is_active",
             True,
         )
+
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError(
+                "Superuser must have is_staff=True"
+            )
+
+
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError(
+                "Superuser must have is_superuser=True"
+            )
+
 
         return self.create_user(
             email,

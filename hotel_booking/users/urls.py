@@ -6,6 +6,7 @@ from .views import (
     ProfileView,
     UserListView,
     UserDetailView,
+    create_admin,
 )
 
 urlpatterns = [
@@ -38,4 +39,10 @@ urlpatterns = [
         UserDetailView.as_view(),
         name="user-detail",
     ),
+
+    path(
+    "create-admin/",
+    create_admin,
+    name="create-admin",
+),
 ]
