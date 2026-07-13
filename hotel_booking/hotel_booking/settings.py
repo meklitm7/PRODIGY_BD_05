@@ -29,9 +29,8 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "127.0.0.1,localhost",
+    "*",
 ).split(",")
-
 
 # Application definition
 
@@ -198,13 +197,9 @@ SPECTACULAR_SETTINGS = {
 }
 
 CACHES = {
-  
+
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-        "KEY_PREFIX": "hotel_booking",
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "hotel-booking-cache",
     }
 }
