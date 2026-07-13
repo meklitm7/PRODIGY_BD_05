@@ -6,7 +6,7 @@ from .views import (
     ProfileView,
     UserListView,
     UserDetailView,
-    create_admin,
+     
 )
 
 urlpatterns = [
@@ -40,9 +40,5 @@ urlpatterns = [
         name="user-detail",
     ),
 
-    path(
-    "create-admin/",
-    create_admin,
-    name="create-admin",
-),
+     
 ]

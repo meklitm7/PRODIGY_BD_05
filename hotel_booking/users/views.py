@@ -6,11 +6,7 @@ from rest_framework.permissions import (
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model
-from rest_framework.decorators import (
-    api_view,
-    permission_classes,
-)
+ 
 from .models import User
 from .permissions import IsAdmin
 from .serializers import (
@@ -250,29 +246,4 @@ class UserDetailView(APIView):
             },
             status=status.HTTP_200_OK,
         )
-User = get_user_model()
-
-
-@api_view(["POST"])
-@permission_classes([AllowAny])
-def create_admin(request):
-
-    if User.objects.filter(is_superuser=True).exists():
-        return Response(
-            {"error": "Admin already exists."},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    user = User.objects.create_superuser(
-        email=request.data["email"],
-        password=request.data["password"],
-        name=request.data["name"],
-    )
-
-    return Response(
-        {
-            "message": "Admin created successfully.",
-            "email": user.email,
-        },
-        status=status.HTTP_201_CREATED,
-    )
+ 
