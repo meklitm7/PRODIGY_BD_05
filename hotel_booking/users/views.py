@@ -127,6 +127,12 @@ class ProfileView(APIView):
         )
 
         return Response(serializer.data)
+    
+    @extend_schema(
+        summary="Update Profile",
+        request=UserUpdateSerializer,
+        responses=UserSerializer,
+    )
 
     def patch(self, request):
 
@@ -189,10 +195,18 @@ class UserDetailView(APIView):
 
         return Response(serializer.data)
 
+    @extend_schema(
+    summary="Update User",
+    description="Admin can update a user's name, role, or active status.",
+    request=AdminUserUpdateSerializer,
+    responses={
+        200: UserSerializer,
+        404: None,
+    },
+)
     def patch(self, request, id):
 
         try:
-
             user = UserService.get_user_by_id(id)
 
         except User.DoesNotExist:
